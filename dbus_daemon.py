@@ -9,6 +9,8 @@ import threading
 from dbus_worker import Worker
 from utils.enums import *
 
+import subprocess
+
 
 class WorkItem:
      def __init__(self, cmd, workType, kwargs):
@@ -97,6 +99,18 @@ class Daemon(dbus.service.Object):
         self.add_worker_item(item)
 
         return True
+
+    # 修改 密码
+    @dbus.service.method(INTERFACE, in_signature='ss', out_signature='b', sender_keyword='sender')
+    def changePwd(self, userName, newPasswd, sender=None)
+        cmd = []
+        cmd.append("passwd")
+        cmd.append(userName)
+        p = subprocess.Popen(cmd, env={'LANGUAGE':'en:'}, stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
+        p.stdin.write(newPasswd)
+        p.stdin.write("\n")
+        p.stdin.write(newPasswd)
+        p.stdin.write("\n")
 
     # 测试函数
     @dbus.service.method(INTERFACE, in_signature='i', out_signature='i')
