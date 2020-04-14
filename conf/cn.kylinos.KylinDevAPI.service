@@ -1,0 +1,4 @@
+[D-BUS Service]
+Name=cn.kylinos.KylinDevAPI
+Exec=/usr/share/kylin-dev-api/kylinDevAPI.py
+User=root

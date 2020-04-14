@@ -1,0 +1,34 @@
+#!/usr/bin/python
+# coding=utf-8
+
+import sys
+import dbus
+
+INTERFACE = "cn.kylinos.KylinRootRun"
+
+
+def kylin_root_run(cmd):
+
+    try:
+        bus = dbus.SystemBus()
+    except:
+        print "could not init system dbus"
+        return False
+
+    try:
+        obj = bus.get_object(INTERFACE, "/")
+        iface = dbus.Interface(obj, INTERFACE)
+
+        iface.root_run_cmd(cmd)
+
+    except dbus.DBusException, e:
+        print "dbus.DBusException error ", e
+
+
+if __name__ == "__main__":
+    if(len(sys.argv) >= 2):
+        cmd = sys.argv[1:]
+        cmd = " ".join(cmd)
+        kylin_root_run(cmd)
+    else:
+        print "Kylin Root Run - run command as root with no output\nusage: krr <cmd1 cmd2 ...>"
